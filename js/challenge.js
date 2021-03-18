@@ -41,22 +41,21 @@ manuallyDecrement()
 function heartLiker() {
   const heart = document.getElementById('heart')
   const likes = {}
-  let timer = document.querySelector("#counter").innerText
   let numLike = 1
   const ul = document.getElementsByClassName('likes')
 
   heart.addEventListener('click', function(e) {
-    if (Object.values(likes) >= 1) {
-      const lii = document.querySelector('ul li')
-      let timer = document.querySelector("#counter").innerText
+    let timer = document.querySelector("#counter").innerText
+    if (likes[timer]) {
+      const lii = document.getElementById(`${timer}`)
       likes[timer] += 1 
-      const v = Object.values(likes)
-      lii.innerText = `Youuuu liked ${timer} ${v}`
-      ul[0].appendChild(lii)
+      const v = likes[timer]
+      lii.innerText = `You liked ${timer} ${v} times`
     } 
     else {
       likes[timer] = 1 
       const li = document.createElement('li')
+      li.id = timer
       li.innerText = `You liked ${timer} ${numLike} time`
       ul[0].appendChild(li)
     }
@@ -64,3 +63,43 @@ function heartLiker() {
 }
 
 heartLiker();
+
+function pauseButton () {
+  const pause = document.getElementById('pause')
+  pause.addEventListener('click', function(e) {
+    document.getElementById("plus").disabled = true;
+    document.getElementById("minus").disabled = true;
+    document.getElementById("heart").disabled = true;
+    pause.innerText = "resume"
+    pause.addEventListener('click', function(e) {
+      document.getElementById("plus").disabled = false;
+      document.getElementById("minus").disabled = false;
+      document.getElementById("heart").disabled = false;
+      pause.innerText = "pause"
+      let timer = document.querySelector("#counter")
+      timer.innerText = 0
+      pauseButton()
+    })
+  })
+}
+
+pauseButton();
+
+
+function submit() {
+  const form = document.getElementById('comment-form')
+  const submitButton = document.getElementById('submit')
+  const input = document.getElementById('comment-input')
+  const h = document.getElementById('me')
+  submitButton.addEventListener('click', function(e){
+    e.preventDefault()
+    let p = document.createElement('li')
+    const hi = input.value
+    p.innerText = hi 
+    p.id = hi
+    h.appendChild(p)
+    form.reset()
+  })
+}
+
+submit(); 
